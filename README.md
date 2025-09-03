@@ -12,6 +12,8 @@ Client Feedback Collection Capture structured feedback from clients post-install
 - Email Notifications Sends approval confirmation to clients upon service sheet validation.
 - User & Client Master Management Store and manage user profiles, client records, and issue categories.
 - Dashboard Analytics Displays master counts and issue trends in an intuitive dashboard.
+- Automated PDF Reports: Generate service sheet PDFs using Puppeteer and deliver them to clients via email.
+
 
 # Tech Stack
 Frontend: HTML, CSS, JS, BOOTSTRAP
@@ -20,6 +22,7 @@ Database: MongoDB
 Visualization: Chart.js
 Email Service: Nodemailer
 API Integration: RESTful APIs
+PDF Generation: Puppeteer
 
 # Installation
 # Clone the repository
