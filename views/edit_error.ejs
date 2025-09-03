@@ -1,0 +1,43 @@
+<%- include('common/header') %>
+    <%- include('common/sidebar') %>
+
+        <div class="page-wrapper">
+            <div class="page-content">
+                <h3 class="fw-bold text-dark mb-4">
+                    Edit Error
+                </h3>
+
+                <% if (success && success.length> 0) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                    <% } %>
+
+                        <% if (error && error.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+
+
+                                <form method="POST" action="/update-error/<%= errorData._id %>" class="m-auto w-75">
+                                    <label>Error Code</label>
+                                    <input type="text" name="error_code" class="form-control" required
+                                        value="<%= errorData.error_code %>">
+
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control" rows="4"
+                                        required><%= errorData.description %></textarea>
+
+                                    <div class="d-flex gap-2 mt-4">
+                                        <button type="submit" class="btn btn-primary">Update Error</button>
+                                        <a href="/errors" class="btn grad-box">Cancel</a>
+                                    </div>
+                                </form>
+
+            </div>
+        </div>
+
+        <script src="/assets/js/script.js"></script>
+
+        <%- include('common/footer') %>

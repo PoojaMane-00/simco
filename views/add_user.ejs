@@ -1,0 +1,59 @@
+<%- include('common/header') %>
+    <%- include('common/sidebar') %>
+
+        <div class="page-wrapper">
+            <div class="page-content">
+                <h3 class="fw-bold text-dark mb-4">Add New User</h3>
+
+                <% if (success.length> 0) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                    <% } %>
+
+                        <% if (error.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+
+                                <form method="POST" action="/add-user" class="m-auto w-75">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" required>
+
+                                    <label>Username</label>
+                                    <input type="text" name="username" class="form-control" required>
+
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" required>
+
+                                    <label>Mobile</label>
+                                    <input type="text" name="mobile" class="form-control" pattern="\d{10}"
+                                        maxlength="10" required title="Please enter a valid 10-digit mobile number">
+
+                                    <label>Role</label>
+                                    <select name="role" class="form-control">
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+
+                                    <label>Password</label>
+                                    <div class="input-group">
+                                        <input type="password" name="password" class="form-control" id="passwordField"
+                                            required>
+                                        <button type="button" class="btn btn-outline-secondary grad-box"
+                                            id="togglePassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="d-flex gap-2 mt-3">
+                                        <button type="submit" class="btn btn-primary">Create User</button>
+                                        <a href="/users" class="btn grad-box">Cancel</a>
+                                    </div>
+                                </form>
+            </div>
+        </div>
+
+        <script src="/assets/js/script.js"></script>
+        <%- include('common/footer') %>

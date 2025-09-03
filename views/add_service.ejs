@@ -1,0 +1,160 @@
+<%- include('common/header') %> <%- include('common/sidebar') %>
+
+    <div class="page-wrapper">
+      <div class="page-content">
+        <h3 class="fw-bold text-dark mb-4">Add New Service Record</h3>
+
+        <% if (success && success.length> 0) { %>
+          <div class="alert alert-success">
+            <%= success %>
+          </div>
+          <% } %>
+            <% if (error && error.length> 0) { %>
+              <div class="alert alert-danger">
+                <%= error %>
+              </div>
+              <% } %>
+
+                <form method="POST" action="/add-service" class="bg-white p-4 rounded shadow"
+                  style="max-width: 1000px; margin: auto">
+                  <div class="mb-3">
+                    <label for="issue_id">Select Issue</label>
+                    <select name="issue_id" id="issue_id" class="form-select" required>
+                      <option value="">-- Select an Issue --</option>
+                      <% issue_master.forEach(issue=> { %>
+                        <option value="<%= issue._id %>">
+                          <%= issue.description %>
+                        </option>
+                        <% }); %>
+                    </select>
+                  </div>
+
+                  <!-- Basic Info -->
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label>Plant Information</label>
+                      <input type="text" name="plant_info" class="form-control" required />
+                    </div>
+                    <div class="col">
+                      <label>Document No.</label>
+                      <input type="text" name="doc_no" class="form-control" required />
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label>Visit Date</label>
+                      <input type="date" name="visit_date" class="form-control" required />
+                    </div>
+                    <div class="col">
+                      <label>Company Name</label>
+                      <input type="text" name="company_name" class="form-control" required />
+                    </div>
+                  </div>
+
+                  <label>Address</label>
+                  <input type="text" name="address" class="form-control mb-3" required />
+
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label>Contact Person</label>
+                      <input type="text" name="contact_person" class="form-control" required />
+                    </div>
+                    <div class="col">
+                      <label>Mobile No.</label>
+                      <input type="text" name="mobile_no" class="form-control" required />
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label>Email ID</label>
+                      <input type="email" name="email_id" class="form-control" required />
+                    </div>
+                    <div class="col">
+                      <label>Visit Purpose</label>
+                      <input type="text" name="visit_purpose" class="form-control" required />
+                    </div>
+                  </div>
+
+                  <!-- Service Type -->
+                  <label class="">Service Type</label>
+                  <% const serviceTypes=['ser_quarterly', 'ser_emergency' , 'ser_ad_hoc' , 'ser_client_call'
+                    , 'ser_module_cleaning' ]; %>
+                    <% const serviceLabels={ ser_quarterly: 'Quarterly' , ser_emergency: 'Emergency' ,
+                      ser_ad_hoc: 'AD HOC' , ser_client_call: 'Client Call' ,
+                      ser_module_cleaning: 'Solar Module Cleaning' }; %>
+                      <% serviceTypes.forEach(type=> { %>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="checkbox" name="<%= type %>" />
+                          <label class="form-check-label">
+                            <%= serviceLabels[type] %>
+                          </label>
+                        </div>
+                        <% }); %>
+
+                          <hr />
+                          <label>O&M Service Performed</label>
+
+                          <% const sections={ 'DC Side' : ['dc_module_earthing', 'dc_fuse' , 'dc_mc4_connector'
+                            , 'dc_loose_wires' , 'dc_voltage' , 'dc_current' , 'dc_loose_connection' ], 'AC Side' :
+                            ['ac_line_voltage', 'ac_line_current' , 'ac_pn_voltage' , 'ac_islanding_test'
+                            , 'ac_loose_connection' ], 'Earthing' : ['earthing_resistance'], 'Auto Cleaning System' :
+                            ['auto_timer_program', 'auto_sprinkler' , 'auto_solenoid_valve' ], 'Mounting' :
+                            ['mount_mid_clamp', 'mount_end_clamp' , 'mount_spring_nut' , 'mount_intensity_strength'
+                            , 'mount_corrosion' ], 'Thermography' : ['thermo_hotspot_modules', 'thermo_hotspot_inverter'
+                            , 'thermo_hotspot_switchgear' ], 'Miscellaneous' : ['misc_cable_tie', 'misc_safety_signs'
+                            , 'misc_anti_rust_paint' ] }; %>
+                            <% for (const [section, fields] of Object.entries(sections)) { %>
+                              <label>
+                                <%= section %>
+                              </label>
+                              <div class="row mb-2">
+                                <% fields.forEach(field=> {
+                                  const cleanedLabel = field
+                                  .replace(/^(dc|ac|misc|auto|mount|thermo|earthing)_*/i, '') // remove prefix
+                                  .replace(/_/g, ' ') // replace underscores with spaces
+                                  .replace(/\b\w/g, char => char.toUpperCase()); // capitalize each word
+                                  %>
+                                  <div class="col-md-4">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" name="<%= field %>" />
+                                      <label class="form-check-label">
+                                        <%= cleanedLabel %>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <% }); %>
+                              </div>
+
+                              <% } %>
+                                <!-- Others -->
+                                <label>Others</label>
+                                <div class="row mb-2">
+                                  <div class="col-md-4">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" name="other_fault_analysis" />
+                                      <label class="form-check-label">Fault Detection & Analysis</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" name="other_function_check" />
+                                      <label class="form-check-label">Function Check After Fault Alarm Received</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Remarks -->
+                                <label>Remarks / Recommendations</label>
+                                <textarea name="remarks" class="form-control mb-3" rows="3"></textarea>
+
+                                <div class="d-flex justify-content-end gap-2">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                  <a href="/service-list" class="btn btn-secondary">Cancel</a>
+                                </div>
+                </form>
+      </div>
+    </div>
+
+    <%- include('common/footer') %>

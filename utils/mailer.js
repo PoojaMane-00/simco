@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 exports.sendApprovalEmail = async (to, subject, htmlContent) => {
   const mailOptions = {
-    from: '"Solar Installation and Maintenance Node Project" <admin@novamiinfotechs.com>', // include sender email
+    from: '"SIMCo Node Project" <admin@novamiinfotechs.com>', // include sender email
     to,
     subject,
     html: htmlContent
@@ -36,7 +36,7 @@ exports.sendApprovalEmail = async (to, subject, htmlContent) => {
 
 exports.sendApprovalEmailWithAttachment = async (to, subject, textContent, pdfBuffer, filename) => {
   const mailOptions = {
-    from: '"Solar Installation and Maintenance Node Project" <admin@novamiinfotechs.com>',
+    from: '"SIMCo Node Project" <admin@novamiinfotechs.com>',
     to,
     subject,
     text: textContent, // plain text fallback

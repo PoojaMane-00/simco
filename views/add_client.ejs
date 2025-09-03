@@ -1,0 +1,58 @@
+<%- include('common/header') %>
+    <%- include('common/sidebar') %>
+
+        <div class="page-wrapper">
+            <div class="page-content">
+                <h3 class="fw-bold text-dark mb-4">Add New Client</h3>
+
+                <% if (success.length> 0) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                    <% } %>
+
+                        <% if (error.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+
+                                <form action="/add-client" method="post" class="w-75 m-auto">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label>Client Name</label>
+                                            <input type="text" name="client_name" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Company Name</label>
+                                            <input type="text" name="company_name" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Email Address</label>
+                                            <input type="email" name="email_address" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Mobile</label>
+                                            <input type="text" name="mobile" class="form-control" pattern="\d{10}"
+                                                maxlength="10" required
+                                                title="Please enter a valid 10-digit mobile number">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Address</label>
+                                            <textarea name="address" class="form-control" rows="2" required></textarea>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Description</label>
+                                            <textarea name="description" class="form-control" rows="2"></textarea>
+                                        </div>
+                                        <div class="col-md-12 text-end">
+                                            <button type="submit" class="btn btn-primary">Add Client</button>
+                                            <a href="/clients" class="btn grad-box">Cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
+            </div>
+        </div>
+
+        <script src="/assets/js/script.js"></script>
+        <%- include('common/footer') %>

@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<!-- Left Sidebar -->
+<div class="startbar d-print-none bg-gradient-light border-end shadow-sm auth-header-box">
+
+  <!-- Brand Section -->
+  <div class="brand text-center py-3">
+    <a href="/admin" class="logo d-flex flex-column align-items-center">
+      <img src="/assets/images/favicon.png" alt="logo-small" class="logo-sm">
+      <img src="/assets/images/logo.png" alt="logo-large" class="logo-lg mb-1 bg-light gradient-custom rounded-2" width="140">
+      <img src="/assets/images/logo.png" alt="logo-dark" class="logo-lg d-none">
+    </a>
+  </div>
+
+  <!-- Navigation Menu -->
+  <div class="startbar-menu">
+    <div class="startbar-collapse" id="startbarCollapse" data-simplebar>
+      <ul class="navbar-nav px-3">
+
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link <%= currentRoute === 'dashboard' ? 'active' : '' %>" href="/dashboard">
+            <i class="iconoir-report-columns menu-icon me-2"></i>
+            <span>Home</span>
+          </a>
+        </li>
+
+        <!-- Users -->
+        <li class="nav-item">
+          <a class="nav-link <%= currentRoute === 'users' ? 'active' : '' %>" href="/users">
+            <i class="iconoir-community menu-icon me-2"></i>
+            <span>Users</span>
+          </a>
+        </li>
+
+        <!-- Masters -->
+        <% const mastersActive = ['clients', 'edit-client', 'errors', 'edit-error'].includes(currentRoute); %>
+        <li class="nav-item <%= mastersActive ? 'active' : '' %>">
+          <a class="nav-link <%= mastersActive ? '' : 'collapsed' %>" href="#sidebarProducts" data-bs-toggle="collapse" aria-expanded="<%= mastersActive ? 'true' : 'false' %>">
+            <i class="iconoir-task-list menu-icon me-2"></i>
+            <span>Masters</span>
+          </a>
+
+          <div class="collapse <%= mastersActive ? 'show' : '' %>" id="sidebarProducts">
+            <ul class="nav flex-column ms-3">
+
+              <% const isClientActive = ['clients', 'edit-client'].includes(currentRoute); %>
+              <li class="nav-item <%= isClientActive ? 'active' : '' %>">
+                <a class="nav-link <%= isClientActive ? 'active' : '' %>" href="/clients">
+                  <i class="iconoir-community menu-icon me-2"></i>Clients
+                </a>
+              </li>
+
+              <% const isErrorsActive = ['errors', 'edit-error'].includes(currentRoute); %>
+              <li class="nav-item <%= isErrorsActive ? 'active' : '' %>">
+                <a class="nav-link <%= isErrorsActive ? 'active' : '' %>" href="/errors">
+                  <i class="iconoir-scan-barcode menu-icon me-2"></i>Errors
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+
+        <!-- Service Sheet Approval -->
+        <% const isServiceActive = ['service-list', 'view-form'].includes(currentRoute); %>
+        <li class="nav-item <%= isServiceActive ? 'active' : '' %>">
+          <a class="nav-link <%= isServiceActive ? 'active' : '' %>" href="/service-list">
+            <i class="iconoir-clipboard-check menu-icon me-2"></i>
+            <span>Service Sheet Approval</span>
+          </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="nav-item mt-3">
+          <a class="nav-link <%= currentRoute === 'logout' ? 'active' : '' %>" href="/logout">
+            <i class="iconoir-log-out menu-icon me-2"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="startbar-overlay d-print-none"></div>

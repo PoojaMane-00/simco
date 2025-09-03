@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # simco
 Solar Installation and Maintenance Company
 =======
@@ -40,5 +39,4 @@ Monitor issue trends and master data via the dashboard.
 
 # Author
 Pooja Mane GitHub: @PoojaMane-00
->>>>>>> a9359de (Initial SIMCo commit)
 # simco
