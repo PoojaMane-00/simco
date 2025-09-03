@@ -1,0 +1,140 @@
+<%- include('common/header') %> <%- include('common/sidebar') %>
+<style>
+  /* .alert{
+    padding: 5px 10px !important;
+  } */
+</style>
+    <div class="page-wrapper">
+      <div class="page-content">
+        <div class="container-fluid">
+          <!-- Page Title & Breadcrumb -->
+          <div class="row">
+            <div class="col-md-8">
+              <h3 class="fw-bold text-dark">
+                <%= title %>
+              </h3>
+            </div>
+            <div class="col-md-4 text-md-end text-muted">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="#">Solar Installation and Maintenance Company</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <%= title %>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          
+          <!-- Flash Messages -->
+          <% if (success && success.length> 0) { %>
+            <div class="alert alert-success">
+              <%= success[0] %>
+            </div>
+            <% } %>
+
+              <% if (error && error.length> 0) { %>
+                <div class="alert alert-danger">
+                  <%= error[0] %>
+                </div>
+                <% } %>
+
+
+                  <!-- User Table -->
+                  <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body bg-light">
+                      <!-- Search and Show Controls -->
+                      <div class="row mb-3 align-items-center">
+                        <div class="col-md-6">
+                          <!-- Errors Search -->
+                          <input type="text" id="formSearchInput" class="form-control" placeholder="Search..." />
+                          <div class="col-md-6 text-end"></div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                          <a href="add-service" class="btn btn-outline-secondary btn-sm grad-box">
+                            <i class="bi bi-plus-circle"></i> Add Service
+                          </a>
+                          <button id="exportExcelBtn" class="btn btn-outline-secondary btn-sm grad-box">
+                            <i class="bi bi-file-earmark-excel"></i> Export to Excel
+                          </button>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="formsTable">
+                          <thead class="table auth-header-box">
+                            <tr>
+                              <th>Sr No</th>
+                              <th>Company Name</th>
+                              <th>Visit Date</th>
+                              <th>Contact Person</th>
+                              <th>Mobile No</th>
+                              <th>Visit Purpose</th>
+                              <th>Action</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% if (records && records.length> 0) { %> <% records.forEach((row, index)=> { const status =
+                                row.status?.toLowerCase(); let btnClass = 'btn-danger'; if
+                                (status === 'approved') btnClass = 'btn-success'; else if
+                                (status === 'pending') btnClass = 'btn-warning'; %>
+                                <tr>
+                                  <td>
+                                    <%= index + 1 %>
+                                  </td>
+                                  <td>
+                                    <%= row.company_name %>
+                                  </td>
+                                  <td>
+                                    <%= new Date(row.visit_date).getDate().toString().padStart(2, '0' ) %>- <%= (new
+                                        Date(row.visit_date).getMonth() + 1).toString().padStart(2, '0' ) %>- <%= new
+                                          Date(row.visit_date).getFullYear() %>
+                                  </td>
+                                  <td>
+                                    <%= row.contact_person %>
+                                  </td>
+                                  <td>
+                                    <%= row.mobile_no %>
+                                  </td>
+                                  <td>
+                                    <%= row.visit_purpose %>
+                                  </td>
+                                  <td>
+                                    <a href="/view-form/<%= row.id %>" class="btn btn-sm grad-box">
+                                      <i class="iconoir-clipboard-check me-1"></i>
+                                      View Form
+                                    </a>
+                                  </td>
+                                  <td>
+                                    <% if (typeof status==='string' && status.length> 0) { %>
+                                      <span class="btn btn-sm <%= btnClass %>">
+                                        <%= status.charAt(0).toUpperCase() + status.slice(1) %>
+                                      </span>
+                                      <% } else { %>
+                                        <span class="btn btn-sm btn-secondary">Unknown</span>
+                                        <% } %>
+                                  </td>
+                                </tr>
+                                <% }) %>
+                                  <% } else { %>
+                                    <tr>
+                                      <td colspan="9" class="text-center py-4 text-muted">
+                                        <i class="bi bi-file-earmark-x fs-4"></i>
+                                        <p class="mt-2 mb-0">No Service Forms Found</p>
+                                      </td>
+                                    </tr>
+                                    <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+
+    <%- include('common/footer') %>

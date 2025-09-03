@@ -1,0 +1,358 @@
+<%- include('common/header') %>
+    <%- include('common/sidebar') %>
+        <style>
+            body {
+                line-height: 1.8;
+            }
+
+            .issue {
+                background-color: #72be4e;
+                border-radius: 10px;
+            }
+        </style>
+        <div id="loadingOverlay"
+            style="display: none;position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: rgba(255, 255, 255, 0.8);z-index: 9999;text-align: center;padding-top: 20%;font-size: 20px;color: #2193b0;">
+
+            <div class="spinner-border text-primary" role="status"></div>
+            <div>Please wait... Sending email</div>
+        </div>
+        <div class="page-wrapper">
+            <div class="page-content">
+                <!-- Page Title & Breadcrumb -->
+
+                <div class="row mb-1">
+                    <div class="col-md-8">
+                        <h3 class="fw-bold text-dark">
+                            <%= title %>
+                        </h3>
+                    </div>
+                    <div class="col-md-4 text-md-end text-muted">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Solar Installation and Maintenance Company</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <%= title %>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <% if (success.length> 0) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                    <% } %>
+
+                        <% if (error.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+
+                                <div class="d-flex justify-content-center">
+
+                                    <form action="/approve-reject/<%= record.id %>" method="post"
+                                        class="bg-white p-4 rounded shadow" style="max-width: 1000px; width: 100%;">
+                                        <input type="hidden" name="status" id="statusInput" value="">
+                                        <h6 class="p-1 issue grad-box"> Issue Type:
+                                            <%= issue %>
+                                        </h6>
+                                        <div class="section">
+                                            <div class="row mb-2">
+                                                <div class="col">
+                                                    <label><strong>PLANT INFORMATION: </strong>
+                                                        <%= record.plant_info %>
+                                                    </label>
+                                                </div>
+                                                <div class="col text-end">
+                                                    <label><strong>DOC NO.:</strong>
+                                                        <%= record.doc_no %>
+                                                    </label><br>
+                                                    <label><strong>DATE:</strong>
+                                                        <%= new
+                                                            Date(record.visit_date).getDate().toString().padStart(2, '0'
+                                                            ) %>-
+                                                            <%= (new Date(record.visit_date).getMonth() +
+                                                                1).toString().padStart(2, '0' ) %>-
+                                                                <%= new Date(record.visit_date).getFullYear() %>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <label>Company Name: <u>
+                                                    <%= record.company_name %>
+                                                </u></label><br>
+                                            <label>Address: <u>
+                                                    <%= record.address %>
+                                                </u></label><br>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label>Contact Person: <u>
+                                                            <%= record.contact_person %>
+                                                        </u></label><br>
+                                                </div>
+                                                <div class="col">
+                                                    <label>Mobile No.: <u>
+                                                            <%= record.mobile_no %>
+                                                        </u></label><br>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label>Visit Purpose: <u>
+                                                            <%= record.visit_purpose %>
+                                                        </u></label><br>
+                                                </div>
+                                                <div class="col">
+                                                    <label>Email Id.: <u>
+                                                            <%= record.email_id %>
+                                                        </u></label>
+                                                </div>
+                                            </div>
+                                            <% const service_types={ ser_quarterly: 'Quarterly' ,
+                                                ser_emergency: 'Emergency' , ser_ad_hoc: 'AD HOC' ,
+                                                ser_client_call: 'Client Call' ,
+                                                ser_module_cleaning: 'Solar Module Cleaning' }; %>
+
+                                                <div class="checkbox-group mt-1">
+                                                    <label>Service Type:</label>
+                                                    <% for (const key in service_types) { %>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                <%=record[key] ? 'checked' : '' %> disabled>
+                                                            <label class="form-check-label">
+                                                                <%= service_types[key] %>
+                                                            </label>
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+
+
+                                                <label class="mt-2">O&M SERVICE PERFORMED:</label><br>
+                                                <!-- AC SIDE -->
+                                                <label>1) DC Side: </label>
+                                                <div class="col-md-12 mx-5">
+
+                                                    <% const dc_checks={ dc_module_earthing: 'Module Earthing' ,
+                                                        dc_fuse: 'DC Fuse' , dc_mc4_connector: 'MC4 Connector' ,
+                                                        dc_loose_wires: 'Loose Hanging Wires' , dc_voltage: 'DC Voltage'
+                                                        , dc_current: 'DC Current' ,
+                                                        dc_loose_connection: 'Loose Cable Connection' }; %>
+
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in dc_checks) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= dc_checks[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- AC SIDE -->
+                                                <label>2) AC Side: </label>
+                                                <div class="col-md-12 mx-5">
+                                                    <% const ac_checks={ ac_line_voltage: 'Line Voltage' ,
+                                                        ac_line_current: 'Line Current' , ac_pn_voltage: 'P-N Voltage' ,
+                                                        ac_islanding_test: 'Islanding Condition Test' ,
+                                                        ac_loose_connection: 'Loose Cable Connection' }; %>
+
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in ac_checks) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= ac_checks[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- EARTHING -->
+                                                <label>3) EARTHING: </label>
+                                                <div class="col-md-12 mx-5">
+                                                    <% const earth={ earthing_resistance: 'Earthing Resistance' }; %>
+
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in earth) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= earth[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- AUTO CLEANING SYSTEM: -->
+                                                <label>4) AUTO CLEANING SYSTEM: </label>
+                                                <div class="col-md-12 mx-5">
+                                                    <% const auto={ auto_timer_program: 'Timer Program' ,
+                                                        auto_sprinkler: 'Sprinkler Operation Work' ,
+                                                        auto_solenoid_valve: 'Solenoid Valve Operation' }; %>
+
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in auto) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= auto[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- MOUNTING: -->
+                                                <label>5) MOUNTING: </label>
+                                                <div class="col-md-12 mx-5">
+                                                    <% const mount={ mount_mid_clamp: 'MID Clamp' ,
+                                                        mount_end_clamp: 'END Clamp' , mount_spring_nut: 'Spring Nut' ,
+                                                        mount_intensity_strength: 'Intensity & Strength' ,
+                                                        mount_corrosion: 'Corrosion / Rust' }; %>
+
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in mount) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= mount[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- THERMOGRAPHY -->
+                                                <label>6) THERMOGRAPHY: </label>
+                                                <div class="col-md-12 mx-5">
+                                                    <% const thermo={ thermo_hotspot_modules: 'HOT Spots in Modules' ,
+                                                        thermo_hotspot_inverter: 'HOT Spots in Inverter Connection' ,
+                                                        thermo_hotspot_switchgear: 'HOT Spots in Switchgear’s' }; %>
+
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in thermo) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= thermo[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- OTHERS -->
+                                                <label>7) OTHERS: </label>
+                                                <div class="col-md-12 mx-5">
+                                                    <% const others={ other_fault_analysis: 'Fault Detection & Analysis'
+                                                        ,
+                                                        other_function_check: 'Function Check After Fault Alarm Received'
+                                                        }; %>
+
+                                                        <label>7) OTHERS:</label>
+                                                        <div class="col-md-12 mx-5">
+                                                            <% for (const key in others) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= others[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <!-- MISCELLANEOUS -->
+                                                <label>8) MISCELLANEOUS: </label>
+                                                <div class="col-md-12 mx-5 mb-3">
+                                                    <% const misc={ misc_cable_tie: 'Cable Tie' ,
+                                                        misc_safety_signs: 'Safety Signs' ,
+                                                        misc_anti_rust_paint: 'Anti-Rust Paint' }; %>
+
+                                                        <label>8) MISCELLANEOUS:</label>
+                                                        <div class="col-md-12 mx-5 mb-3">
+                                                            <% for (const key in misc) { %>
+                                                                <div class="row form-check form-check-inline">
+                                                                    <div class="col">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            <%=record[key] ? 'checked' : '' %> disabled>
+                                                                        <label class="form-check-label">
+                                                                            <%= misc[key] %>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <% } %>
+                                                        </div>
+                                                </div>
+
+                                                <span class="fw-normal">Above Check’s and Inspections are performed
+                                                    under O&M Activity.</span>
+
+                                                <div><label class="mt-2">REMARK /
+                                                        RECOMMENDATIONS:</label><br>
+                                                    <%= record.remarks %>
+                                                </div>
+
+                                        </div>
+
+                                        <!-- Repeat similar blocks for other sections like DC Side, AC Side, etc. -->
+
+                                        <div class="mt-4 text-end">
+                                            <% if (record.status === 'pending') { %>
+                                            <button type="submit" class="btn btn-success"
+                                                style="background-color: #72be4e; border: none;"
+                                                onclick="setStatus('approved')">
+                                                <i class="bi bi-check-circle"></i> Approve
+                                            </button>
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="setStatus('rejected')">
+                                                <i class="bi bi-x-circle"></i> Reject
+                                            </button>
+                                            <% } %>
+                                            <a href="service-list" class="btn btn-warning">Back</a>
+                                        </div>
+                                    </form>
+                                </div>
+            </div>
+        </div>
+        <script>
+            function setStatus(value) {
+                document.getElementById('statusInput').value = value;
+            }
+        </script>
+        <script>
+            function setStatus(value) {
+                document.getElementById('statusInput').value = value;
+                document.getElementById('loadingOverlay').style.display = 'block';
+            }
+        </script>
+
+        <script src="/assets/js/script.js"></script>
+        <%- include('common/footer') %>

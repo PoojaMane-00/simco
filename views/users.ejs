@@ -1,0 +1,118 @@
+<%- include('common/header') %>
+  <%- include('common/sidebar') %>
+
+    <div class="page-wrapper">
+      <div class="page-content">
+        <div class="container-fluid">
+
+          <!-- Page Title & Breadcrumb -->
+          <div class="row mb-3">
+            <div class="col-md-8">
+              <h3 class="fw-bold text-dark">
+                <%= title %>
+              </h3>
+            </div>
+            <div class="col-md-4 text-md-end text-muted">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Solar Installation and Maintenance Company</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    <%= title %>
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+
+          <!-- Flash Messages -->
+          <% if (success.length> 0) { %>
+            <div class="alert alert-success">
+              <%= success %>
+            </div>
+            <% } %>
+
+              <% if (error.length> 0) { %>
+                <div class="alert alert-danger">
+                  <%= error %>
+                </div>
+                <% } %>
+
+
+                  <!-- User Table -->
+                  <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body bg-light">
+                      <!-- Search and Show Controls -->
+                      <div class="row mb-3 align-items-center">
+                        <div class="col-md-6">
+                          <input type="text" id="userSearchInput" class="form-control" placeholder="Search users...">
+                        </div>
+                        <div class="col-md-6 text-end">
+                          <a href="/add-user" class="btn btn-outline-secondary btn-sm grad-box">
+                            <i class="bi bi-plus-circle"></i> Add User
+                          </a>
+                        </div>
+                      </div>
+
+                      <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="usersTable">
+                          <thead class="table auth-header-box">
+                            <tr>
+                              <th>Sr No</th>
+                              <th>Username</th>
+                              <th>Email</th>
+                              <th>Role</th>
+                              <th>Password</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% if (records && records.length> 0) { %>
+                              <% records.forEach((row, index)=> { %>
+                                <tr>
+                                  <td>
+                                    <%= index + 1 %>
+                                  </td>
+                                  <td>
+                                    <%= row.username %>
+                                  </td>
+                                  <td>
+                                    <%= row.email %>
+                                  </td>
+                                  <td>
+                                    <%= row.role %>
+                                  </td>
+                                  <td>
+                                    <input type="password" value="<%= row.password %>"
+                                      class="form-control form-control-sm password-field" readonly>
+                                  </td>
+                                  <td>
+                                    <button type="button"
+                                      class="btn btn-outline-secondary btn-sm toggle-password grad-box">
+                                      <i class="bi bi-eye"></i> Show
+                                    </button>
+                                    <a href="/edit-user/<%= row._id %>" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="/delete-user/<%= row._id %>" class="btn btn-sm btn-danger"
+                                      onclick="return confirm('Are you sure?')">Delete</a>
+                                  </td>
+                                </tr>
+                                <% }) %>
+                                  <% } else { %>
+                                    <tr>
+                                      <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="bi bi-person-x fs-4"></i>
+                                        <p class="mt-2 mb-0">No Users Found</p>
+                                      </td>
+                                    </tr>
+                                    <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/script.js"></script>
+    <%- include('common/footer') %>

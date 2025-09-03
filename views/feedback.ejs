@@ -1,0 +1,136 @@
+<%- include('common/header') %>
+    <%- include('common/sidebar') %>
+        <div class="page-wrapper">
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- Page Title & Breadcrumb -->
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <h3 class="fw-bold text-dark">
+                                <%= title %>
+                            </h3>
+                        </div>
+                        <div class="col-md-4 text-md-end text-muted">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Solar Installation and Maintenance Company</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        <%= title %>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Flash Messages -->
+                    <!-- Flash Messages -->
+                    <% if (error) { %>
+                        <div class="alert alert-danger alert-dismissible fade show p-2" role="alert">
+                            <%= error %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        <% } %>
+                            <% if (success) { %>
+                                <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
+                                    <%= success %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                <% } %>
+
+                                    <!-- User Table -->
+                                    <div class="card shadow-sm border-0 rounded-4">
+                                        <div class="card-body bg-light">
+                                            <!-- Search and Show Controls -->
+                                            <div class="row mb-3 align-items-center">
+                                                <div class="col-md-6">
+                                                    <!-- Users Search -->
+                                                    <input type="text" id="userSearchInput" class="form-control"
+                                                        placeholder="Search...">
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover align-middle">
+                                                    <thead class="table auth-header-box">
+                                                        <tr>
+                                                            <th>Sr No</th>
+                                                            <th>Company Name</th>
+                                                            <th>Visit Date</th>
+                                                            <th>Contact Person</th>
+                                                            <th>Mobile No</th>
+                                                            <th>Visit Purpose</th>
+                                                            <th>Action</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php if (!empty($records)): ?>
+                                                        <?php $i = 1;
+                                    foreach ($records as $row): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?= $i++ ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc($row['company_name']) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc($row['visit_date']) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc($row['contact_person']) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc($row['mobile_no']) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc($row['visit_purpose']) ?>
+                                                            </td>
+                                                            <td>
+                                                                <a href="<?= base_url('view-form/' . $row['id']) ?>"
+                                                                    class="btn btn-sm grad-box">
+                                                                    <i class="iconoir-clipboard-check me-1"></i> View
+                                                                    Form
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <?php
+                                                $status = strtolower($row['status']);
+                                                switch ($status) {
+                                                    case 'approved':
+                                                        $btnClass = 'btn-success'; // Green
+                                                        break;
+                                                    case 'pending':
+                                                        $btnClass = 'btn-warning'; // Yellow/Orange
+                                                        break;
+                                                    case 'rejected':
+                                                    default:
+                                                        $btnClass = 'btn-danger'; // Red
+                                                        break;
+                                                }
+                                                ?>
+                                                                <span class="btn btn-sm <?= $btnClass ?>">
+                                                                    <?= ucfirst($status) ?>
+                                                                </span>
+                                                            </td>
+
+                                                        </tr>
+                                                        <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                        <tr>
+                                                            <td colspan="7" class="text-center py-4 text-muted">
+                                                                <i class="bi bi-file-earmark-x fs-4"></i>
+                                                                <p class="mt-2 mb-0">No Service Forms Found</p>
+                                                            </td>
+                                                        </tr>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="<?php base_url('assets/js/script.js') ?>"></script>
+        <?php include 'common/footer.php' ?>

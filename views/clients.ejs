@@ -1,0 +1,107 @@
+<%- include('common/header') %>
+    <%- include('common/sidebar') %>
+        <!-- User Table -->
+        <div class="page-wrapper">
+            <div class="page-content">
+                <!-- Page Title & Breadcrumb -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <h3 class="fw-bold text-dark">
+                            <%= title %>
+                        </h3>
+                    </div>
+                    <div class="col-md-4 text-md-end text-muted">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Solar Installation and Maintainance company</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <%= title %>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Flash Messages -->
+                <% if (success.length> 0) { %>
+                    <div class="alert alert-success">
+                        <%= success %>
+                    </div>
+                    <% } %>
+
+                        <% if (error.length> 0) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+                                <div class="card shadow-sm border-0 rounded-4">
+                                    <div class="card-body bg-light">
+                                        <!-- Search and Show Controls -->
+                                        <div class="row mb-3 align-items-center">
+                                            <div class="col-md-6">
+                                                <input type="text" id="searchInput" class="form-control form-control"
+                                                    placeholder="Search clients...">
+                                            </div>
+                                            <div class="col-md-6 text-end">
+                                                <a href="/add-client" class="btn btn-outline-secondary btn-sm grad-box">
+                                                    <i class="bi bi-plus-circle"></i> Add Client
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover align-middle" id="clientsTable">
+                                                <thead class="table auth-header-box">
+                                                    <tr>
+                                                        <th>Sr No</th>
+                                                        <th>Client Name</th>
+                                                        <th>Company Name</th>
+                                                        <th>Email Address</th>
+                                                        <th>Mobile</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% if (records && records.length> 0) { %>
+                                                        <% records.forEach((row, index)=> { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= index + 1 %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= row.client_name %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= row.company_name %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= row.email_address %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= row.mobile %>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/edit-client/<%= row._id %>"
+                                                                        class="btn btn-sm btn-warning">Edit</a>
+                                                                    <a href="/delete-client/<%= row._id %>"
+                                                                        class="btn btn-sm btn-danger"
+                                                                        onclick="return confirm('Are you sure?')">Delete</a>
+                                                                </td>
+                                                            </tr>
+                                                            <% }) %>
+                                                                <% } else { %>
+                                                                    <tr>
+                                                                        <td colspan="7"
+                                                                            class="text-center py-4 text-muted">
+                                                                            <i class="bi bi-person-x fs-4"></i>
+                                                                            <p class="mt-2 mb-0">No Clients Found</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+            </div>
+        </div>
+        <script src="./assets/js/script.js"></script>
+        <?php include('common/footer.php'); ?>

@@ -1,0 +1,255 @@
+<div
+  style="font-family: Arial, sans-serif; line-height: 1.8; background-color: #f9f9f9; padding: 20px; font-size: 12px;">
+
+  <form action="/approve-reject/<%= record.id %>" method="post" class="bg-white p-4 rounded shadow"
+    style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 800px; margin: auto;">
+    <input type="hidden" name="status" id="statusInput" value="">
+    <!-- Logo -->
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="<%= baseUrl %>/assets/images/logo.png" alt="Company Logo" style="max-height: 80px;">
+    </div>
+    <h5
+      style="padding: 2px 8px; background: linear-gradient(135deg, #6dd5ed, #2193b0); color: white; border-radius: 5px;">
+      Issue Type:
+      <%= issue %>
+    </h5>
+    <div style="margin-bottom: 20px; font-size: 12px;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+        <tr>
+          <td style="width: 50%; padding-right: 10px;">
+            <label><strong>Plant Information:</strong>
+              <%= record.plant_info %>
+            </label>
+          </td>
+          <td style="width: 50%; text-align: right;">
+            <label><strong>Doc NO.:</strong>
+              <%= record.doc_no %>
+            </label><br>
+            <label><strong>Date:</strong>
+              <% const visitDate=new Date(record.visit_date); const day=visitDate.getDate().toString().padStart(2, '0'
+                ); const month=(visitDate.getMonth() + 1).toString().padStart(2, '0' ); const
+                year=visitDate.getFullYear(); %>
+                <%= `${day}-${month}-${year}` %>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding-top: 10px;">
+            <label>Company Name: <u>
+                <%= record.company_name %>
+              </u></label>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <label>Address: <u>
+                <%= record.address %>
+              </u></label>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-top: 10px;">
+            <label>Contact Person: <u>
+                <%= record.contact_person %>
+              </u></label>
+          </td>
+          <td style="padding-top: 10px;">
+            <label>Mobile No.: <u>
+                <%= record.mobile_no %>
+              </u></label>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-top: 10px;">
+            <label>Visit Purpose: <u>
+                <%= record.visit_purpose %>
+              </u></label>
+          </td>
+          <td style="padding-top: 10px;">
+            <label>Email Id.: <u>
+                <%= record.email_id %>
+              </u></label>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <% const service_types={ ser_quarterly: 'Quarterly' , ser_emergency: 'Emergency' , ser_ad_hoc: 'AD HOC' ,
+      ser_client_call: 'Client Call' , ser_module_cleaning: 'Solar Module Cleaning' }; %>
+
+      <div style="margin-top: 8px;">
+        <label style="font-weight: bold;">Service Type:</label><br>
+        <% for (const key in service_types) { const isChecked=record[key]; %>
+          <label style="display: inline-block; margin-right: 12px;">
+            <input type="checkbox" <%=isChecked ? 'checked' : '' %>
+            disabled
+            style="width: 16px; height: 16px; vertical-align: middle;
+            <%= isChecked ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+              <span style="margin-left: 4px; vertical-align: middle;">
+                <%= service_types[key] %>
+              </span>
+          </label>
+          <% } %>
+      </div>
+
+
+      <!-- O&M SERVICE PERFORMED -->
+      <label style="font-weight: bold; margin-top: 12px;">O&M SERVICE PERFORMED:</label><br>
+
+      <!-- 1) DC SIDE -->
+      <label style="font-weight: bold;">1) DC Side:</label><br>
+      <div style="margin-left: 40px;">
+        <% const dc_checks={ dc_module_earthing: 'Module Earthing' , dc_fuse: 'DC Fuse' ,
+          dc_mc4_connector: 'MC4 Connector' , dc_loose_wires: 'Loose Hanging Wires' , dc_voltage: 'DC Voltage' ,
+          dc_current: 'DC Current' , dc_loose_connection: 'Loose Cable Connection' }; %>
+          <% for (const key in dc_checks) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= dc_checks[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 2) AC SIDE -->
+      <label style="font-weight: bold;">2) AC Side:</label><br>
+      <div style="margin-left: 40px;">
+        <% const ac_checks={ ac_line_voltage: 'Line Voltage' , ac_line_current: 'Line Current' ,
+          ac_pn_voltage: 'P-N Voltage' , ac_islanding_test: 'Islanding Condition Test' ,
+          ac_loose_connection: 'Loose Cable Connection' }; %>
+          <% for (const key in ac_checks) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= ac_checks[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 3) EARTHING -->
+      <label style="font-weight: bold;">3) EARTHING:</label><br>
+      <div style="margin-left: 40px;">
+        <% const earth={ earthing_resistance: 'Earthing Resistance' }; %>
+          <% for (const key in earth) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= earth[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 4) AUTO CLEANING SYSTEM -->
+      <label style="font-weight: bold;">4) AUTO CLEANING SYSTEM:</label><br>
+      <div style="margin-left: 40px;">
+        <% const auto={ auto_timer_program: 'Timer Program' , auto_sprinkler: 'Sprinkler Operation Work' ,
+          auto_solenoid_valve: 'Solenoid Valve Operation' }; %>
+          <% for (const key in auto) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= auto[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 5) MOUNTING -->
+      <label style="font-weight: bold;">5) MOUNTING:</label><br>
+      <div style="margin-left: 40px;">
+        <% const mount={ mount_mid_clamp: 'MID Clamp' , mount_end_clamp: 'END Clamp' , mount_spring_nut: 'Spring Nut' ,
+          mount_intensity_strength: 'Intensity & Strength' , mount_corrosion: 'Corrosion / Rust' }; %>
+          <% for (const key in mount) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= mount[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 6) THERMOGRAPHY -->
+      <label style="font-weight: bold;">6) THERMOGRAPHY:</label><br>
+      <div style="margin-left: 40px;">
+        <% const thermo={ thermo_hotspot_modules: 'HOT Spots in Modules' ,
+          thermo_hotspot_inverter: 'HOT Spots in Inverter Connection' ,
+          thermo_hotspot_switchgear: 'HOT Spots in Switchgear’s' }; %>
+          <% for (const key in thermo) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= thermo[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 7) OTHERS -->
+      <label style="font-weight: bold;">7) OTHERS:</label><br>
+      <div style="margin-left: 40px;">
+        <% const others={ other_fault_analysis: 'Fault Detection & Analysis' ,
+          other_function_check: 'Function Check After Fault Alarm Received' }; %>
+          <% for (const key in others) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= others[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+      <!-- 8) MISCELLANEOUS -->
+      <label style="font-weight: bold;">8) MISCELLANEOUS:</label><br>
+      <div style="margin-left: 40px; margin-bottom: 16px;">
+        <% const misc={ misc_cable_tie: 'Cable Tie' , misc_safety_signs: 'Safety Signs' ,
+          misc_anti_rust_paint: 'Anti-Rust Paint' }; %>
+          <% for (const key in misc) { %>
+            <label style="display: inline-block; margin-right: 12px;">
+              <input type="checkbox" <%=record[key] ? 'checked' : '' %>
+              disabled
+              style="width: 16px; height: 16px; vertical-align: middle;
+              <%= record[key] ? 'background-color: #2193b0; border: 1px solid #2193b0;' : 'border: 1px solid #ccc;' %>">
+                <span style="margin-left: 4px;">
+                  <%= misc[key] %>
+                </span>
+            </label>
+            <% } %>
+      </div>
+
+
+      <span class="fw-normal">Above Check’s and Inspections are performed
+        under O&M Activity.</span>
+
+      <div><label class="mt-2"><strong>REMARK /
+            RECOMMENDATIONS:</strong></label><br>
+        <%= record.remarks %>
+      </div>
+
+</div>
+</form>
+</div>

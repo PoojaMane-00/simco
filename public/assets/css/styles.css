@@ -1,0 +1,330 @@
+body {
+
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.alert {
+  padding: 5px 10px !important;
+}
+
+.card.bg-dark {
+
+  background-color: #1f1f1f !important;
+
+  border-radius: 12px;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+
+}
+
+
+
+.auth-header-box {
+
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+
+  color: white;
+
+}
+
+.auth-header-box tr th {
+  color: white;
+}
+
+
+.grad-box {
+
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+
+  color: white;
+
+}
+
+
+
+.form-control {
+
+  border-radius: 8px;
+
+  border: 1px solid #ccc;
+
+  transition: all 0.3s ease;
+
+}
+
+
+
+.form-control:focus {
+
+  border-color: #2193b0;
+
+  box-shadow: 0 0 5px rgba(33, 147, 176, 0.5);
+
+}
+
+
+
+.btn.gradient-custom {
+
+  background: linear-gradient(to right, #ff512f, #dd2476);
+
+  color: white;
+
+  font-weight: bold;
+
+  border-radius: 8px;
+
+  transition: background 0.3s ease;
+
+}
+
+
+
+.btn.gradient-custom:hover {
+
+  background: linear-gradient(to right, #dd2476, #ff512f);
+
+}
+
+
+
+.form-check-input:checked {
+
+  background-color: #2193b0;
+
+  border-color: #2193b0;
+
+}
+
+
+
+.text-light {
+
+  color: #f1f1f1 !important;
+
+}
+
+
+
+.auth-logo {
+
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+
+}
+
+
+
+
+
+body {
+
+  background: linear-gradient(to right, #f0f2f5, #dfe9f3);
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  color: #333;
+
+}
+
+
+
+.page-title-box {
+
+  background: #ffffff;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  margin-bottom: 30px;
+
+}
+
+
+
+.page-title {
+
+  font-size: 24px;
+
+  font-weight: 600;
+
+  color: #2a2a2a;
+
+}
+
+.breadcrumb {
+  background: transparent;
+  font-size: 14px;
+  float: right;
+  margin-left: -1px;
+}
+
+.card {
+
+  border: none;
+
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+  transition: transform 0.3s ease;
+
+}
+
+
+
+.card:hover {
+
+  transform: translateY(-5px);
+
+}
+
+
+
+.card-body {
+
+  padding: 20px;
+
+}
+
+
+
+.card-body p {
+
+  font-size: 13px;
+
+  letter-spacing: 0.5px;
+
+  color: #6c757d;
+
+}
+
+
+
+.card-body h4 {
+
+  font-size: 22px;
+
+  font-weight: 600;
+
+  color: #212529;
+
+}
+
+
+
+.thumb-md {
+
+  width: 50px;
+
+  height: 50px;
+
+  border-radius: 50%;
+
+  background-color: #f8f9fa;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border: solid 4px #60cae3;
+
+}
+
+
+
+.iconoir-cart,
+
+.iconoir-dollar-circle,
+
+.iconoir-keyframes-plus,
+
+.iconoir-keyframes-minus {
+
+  font-size: 24px;
+
+}
+
+
+
+.btn-soft-success {
+
+  background: linear-gradient(to right, #a8e063, #56ab2f);
+
+  color: white;
+
+}
+
+
+
+.btn-soft-primary {
+
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+
+  color: white;
+
+}
+
+
+
+.btn-soft-warning {
+
+  background: linear-gradient(to right, #f7971e, #ffd200);
+
+  color: white;
+
+}
+
+
+
+.btn-soft-danger {
+
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+
+  color: white;
+
+}
+
+
+
+.btn-soft-info {
+
+  background: linear-gradient(to right, #43cea2, #185a9d);
+
+  color: white;
+
+}
+
+
+
+.btn-soft-dark {
+
+  background: linear-gradient(to right, #232526, #414345);
+
+  color: white;
+
+}
+
+
+
+a.text-decoration-none:hover {
+
+  text-decoration: none;
+
+  opacity: 0.9;
+
+}
+
+@media (max-width:550px) {
+  #foot {
+    font-size: 9px;
+  }
+
+}
