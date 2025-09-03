@@ -28,9 +28,6 @@ app.use(flash());
 // app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.use(express.static(path.join(__dirname, "public")));
 
-
-//"mongodb+srv://new_user:lJwpMPw25epYqSIj@cluster0.0vgnayc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
 // Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to MongoDB Atlas"))
