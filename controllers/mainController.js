@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 const fs = require("fs");
 require("dotenv").config();
 const path = require("path");
+const { parse } = require('csv-parse/sync');
 const puppeteer = require("puppeteer"); // For PDF generation
 const { sendApprovalEmailWithAttachment } = require("../utils/mailer"); // Custom email sender with attachment
 
@@ -578,63 +579,6 @@ exports.getMail = async (req, res) => {
   }
 };
 
-// exports.approveSheet = async (req, res) => {
-//   try {
-//     const sheetId = req.params.id;
-//     const newStatus = req.body.status;
-
-//     if (!["approved", "rejected"].includes(newStatus)) {
-//       req.flash("error", "Invalid status value");
-//       return res.redirect("back");
-//     }
-
-//     const updated = await ServiceSheet.findByIdAndUpdate(sheetId, {
-//       status: newStatus,
-//       updated_at: new Date(),
-//     }, { new: true }); // Ensure you get the updated document
-
-//     if (!updated) {
-//       req.flash("error", "Service sheet not found");
-//       return res.redirect("back");
-//     }
-
-//     // Fetch issue description
-//     const issuedata = await Issue.findOne({ error_code: updated.issue_type }).select('description');
-//     const issue = issuedata?.description || "N/A";
-
-//     // Render form view as HTML
-//     const formHtml = await new Promise((resolve, reject) => {
-//       res.render("mailview", {
-//         issue,
-//         record: updated,
-//         error: req.flash("error"),
-//         success: req.flash("success"),
-//       }, (err, html) => {
-//         if (err) reject(err);
-//         else resolve(html);
-//       });
-//     });
-
-//     // Send email notification
-//     const recipientEmail = updated.email || "manepooja0000@gmail.com";
-//     const subject = `Service Sheet ${newStatus.toUpperCase()}`;
-//     const htmlContent = `
-//       <h3>Service Sheet Update</h3>
-//       <p>Your service sheet has been <strong>${newStatus}</strong>.</p>
-//       ${formHtml}
-//     `;
-
-//     await sendApprovalEmail(recipientEmail, subject, htmlContent);
-
-//     req.flash("success", `Service sheet successfully ${newStatus}`);
-//     res.redirect("/service-list");
-//   } catch (err) {
-//     console.error("Approval Error:", err.message);
-//     req.flash("error", "Something went wrong during approval");
-//     res.redirect("back");
-//   }
-// };
-
 exports.approveSheet = async (req, res) => {
   try {
     const sheetId = req.params.id;
@@ -661,7 +605,7 @@ exports.approveSheet = async (req, res) => {
 
     // Render HTML from mailview template
     const formHtml = await new Promise((resolve, reject) => {
-      res.render("mailview", {baseUrl: process.env.BASE_URL, issue, record: updated }, (err, html) => {
+      res.render("mailview", { baseUrl: process.env.BASE_URL, issue, record: updated }, (err, html) => {
         if (err) reject(err);
         else resolve(html);
       });
@@ -843,31 +787,59 @@ exports.deleteUser = async (req, res) => {
   }
 }
 
-// exports.approveSheet = async (req, res) => {
-//   try {
-//     const sheetId = req.params.id;
-//     const newStatus = req.body.status;
+exports.ImportUsers = async (req, res) => {
+  try {
+    const file = req.file;
 
-//     if (!['approved', 'rejected'].includes(newStatus)) {
-//       req.flash('error', 'Invalid status value');
-//       return res.redirect('back');
-//     }
+    if (!file || path.extname(file.originalname).toLowerCase() !== '.csv') {
+      req.flash('error', 'Invalid file type. Only CSV files are allowed.');
+      return res.redirect('/upload'); // adjust route as needed
+    }
 
-//     const updated = await ServiceSheet.findByIdAndUpdate(sheetId, {
-//       status: newStatus,
-//       updated_at: new Date()
-//     });
+    const csvContent = file.buffer.toString('utf-8');
+    const records = parse(csvContent, { columns: true, skip_empty_lines: true });
 
-//     if (!updated) {
-//       req.flash('error', 'Service sheet not found');
-//       return res.redirect('back');
-//     }
+    const failedEntries = [];
 
-//     req.flash('success', `Service sheet successfully ${newStatus}`);
-//     res.redirect('/service-list');
-//   } catch (err) {
-//     console.error('Approval Error:', err);
-//     req.flash('error', 'Something went wrong during approval');
-//     res.redirect('back');
-//   }
-// };
+    for (let i = 0; i < records.length; i++) {
+      const row = records[i];
+      const rowNumber = i + 2; // +2 to account for header and 0-index
+
+      try {
+        const existingUser = await User.findOne({ email: row.email });
+        if (existingUser) {
+          failedEntries.push(`Row ${rowNumber}: Email "${row.email}" already exists.`);
+          continue;
+        }
+
+        const newUser = new User({
+          role: row.role,
+          name: row.name,
+          email: row.email,
+          username: row.username,
+          mobile: row.mobile,
+          password: row.password, // Consider hashing this before saving!
+          active: true,
+        });
+
+        await newUser.save();
+      } catch (err) {
+        failedEntries.push(`Row ${rowNumber}: Error - ${err.message}`);
+      }
+    }
+
+    if (failedEntries.length > 0) {
+      req.flash('error', failedEntries.join('<br>'));
+    } else {
+      req.flash('success', 'All users imported successfully.');
+    }
+
+    res.redirect('/users');
+  } catch (error) {
+    req.flash('error', 'An unexpected error occurred during import.');
+    res.redirect('/users');
+  }
+};
+
+
+

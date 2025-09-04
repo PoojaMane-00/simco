@@ -1,0 +1,8 @@
+role,name,email,username,mobile,password
+admin,Admin,admin@gmail.com,admin@gmail.com,9876543210,Admin123
+user,Test ,test@gmail.com,test@gmail.com,2147483647,Test123
+admin,Uday Yeole (M.D),Uday@solarika.net,Uday@solarika.net,9999999999,solarika@1234
+user,Akhtar Shaikh,Akhtar@solarika.net,Akhtar@solarika.net,8888888888,Akhtar123
+user,Pooja,manepooja0000@gmail.com,manepooja0000@gmail.com,0,123
+user,Bhushan,bhushan@gmail.com,bhushan@gmail.com,1111111111,123
+user,Sachin,sg.stpl@gmail.com,Sachin Gaikwad,0,sgSTPL@2025**

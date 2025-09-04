@@ -44,10 +44,27 @@
                       <!-- Search and Show Controls -->
                       <div class="row mb-3 align-items-center">
                         <div class="col-md-6">
+                          <!-- Users Search -->
                           <input type="text" id="userSearchInput" class="form-control" placeholder="Search users...">
                         </div>
-                        <div class="col-md-6 text-end">
-                          <a href="/add-user" class="btn btn-outline-secondary btn-sm grad-box">
+                        <div class="col-md-4 text-end">
+                          <form action="/import-users" method="POST"
+                            enctype="multipart/form-data">
+                            <div class="row">
+                              <div class="col-md-8">
+                                <input type="file" name="csv_file" class="form-control form-control-sm" required="">
+                              </div>
+                              <div class="col-md-4 text-end">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm grad-box">
+                                  <i class="bi bi-plus-circle"></i> Import Users
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-md-2 text-end">
+                          <a href="/add-user"
+                            class="btn btn-outline-secondary btn-sm grad-box">
                             <i class="bi bi-plus-circle"></i> Add User
                           </a>
                         </div>

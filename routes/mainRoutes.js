@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const controller = require("../controllers/mainController");
 
 router.get("/", controller.getDashboard);
@@ -32,6 +35,7 @@ router.post("/update-user/:id", controller.updateUser);
 router.post("/update-error/:id", controller.updateError);
 router.post("/update-client/:id", controller.updateClient);
 router.post("/approve-reject/:id", controller.approveSheet);
+router.post("/import-users",upload.single('csv_file'), controller.ImportUsers);
 
 
 module.exports = router;
