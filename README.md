@@ -2,7 +2,7 @@
 Solar Installation and Maintenance Company
 =======
 # Overview
-SIMCO is a web-based dashboard designed for Solar Installation and Maintenance Solar Panel Installation & Maintenance Company. 
+SIMCO is a web-based dashboard designed for Solar Installation and Maintenance Company. 
 It streamlines client feedback collection, visualizes service issues, and automates service sheet approvals—enhancing operational efficiency and customer satisfaction.
 
 # Features
